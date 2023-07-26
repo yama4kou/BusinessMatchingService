@@ -9,20 +9,25 @@
 <style>
 body {
 	font-family: Arial, sans-serif;
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 .container {
-	max-width: 400px;
+	max-width: 850px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #fff;
 	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.container h2, p {
+.container h2 {
 	text-align: center;
+	margin: 1px;
+}
+
+.container p {
+	text-align: center;
+	margin: 5px;
 }
 
 .container label {
@@ -40,25 +45,33 @@ body {
 
 .container button {
 	width: 100%;
-	padding: 10px;
-	background-color: #4caf50;
-	color: #fff;
+	padding: 6px;
+	background-color: #1976D2;
+	color: #ffc34a;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
-}
-
-.container button:hover {
-	background-color: #45a049;
 }
 
 .container .input-wrapper {
 	display: flex;
 	align-items: center;
 	margin: 2px;
+	padding-top: 2px;
+	border-top: 1px solid #ccc;
 }
 
-.container .input-wrapper label {
+.container .input-wrapper-last {
+	display: flex;
+	align-items: center;
+	margin: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.container .input-wrapper label, .container .input-wrapper-last label {
 	flex-basis: 30%;
 }
 
@@ -79,7 +92,17 @@ body {
 </head>
 <body>
 	<div class="container">
-		<h2>ユーザー登録フォーム</h2>
+		<div class="logo">
+			<header>
+				<!-- ヘッダー部分の追加 -->
+				<a href="/"> <img
+					src="${pageContext.request.contextPath}/images/logo.png" alt="ロゴ"
+					width="150" height="50">
+				</a>
+			</header>
+		</div>
+		<h2>新規登録</h2>
+		<p>以下の情報を入力して確認ボタンを押してください</p>
 		<form:form
 			action="${pageContext.request.contextPath}/userRegistrationConfirmation"
 			method="post" modelAttribute="user">
@@ -103,8 +126,8 @@ body {
 
 			<div class="input-wrapper">
 				<label for="User_firstName">名:</label>
-				<form:input path="userFirstName" id="User_firstName"
-					required="true" value="${formData.userFirstName}" />
+				<form:input path="userFirstName" id="User_firstName" required="true"
+					value="${formData.userFirstName}" />
 			</div>
 
 			<div class="input-wrapper">
@@ -131,23 +154,21 @@ body {
 					required="true" />
 			</div>
 
-			<div class="input-wrapper">
+			<div class="input-wrapper-last">
 				<label for="User_confirmPassword">パスワード確認:</label>
 				<form:input path="userConfirmPassword" id="User_confirmPassword"
 					type="password" required="true" />
 			</div>
 
-			<div class="input-wrapper">
-				<label for="User_role">ユーザー権限:</label>
-				<form:input path="userRole" id="User_role" required="true"
-					value="一般" />
-			</div>
+			<label for="User_role"> <!-- 権限 -->
+			</label>
+			<form:input path="userRole" id="User_role" required="true" value="ユーザー"
+				type="hidden" />
 
-			<div class="input-wrapper">
-				<label for="User_deleteFlag">退会状況:</label>
-				<form:input path="userDeleteFlag" id="User_deleteFlag"
-					required="true" value="0" />
-			</div>
+			<label for="User_deleteFlag"> <!-- 退会状況 -->
+			</label>
+			<form:input path="userDeleteFlag" id="User_deleteFlag"
+				required="true" value="0" type="hidden" />
 
 			<!-- エラーメッセージ表示領域 -->
 			<div class="error-message">

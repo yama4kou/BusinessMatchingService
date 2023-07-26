@@ -16,17 +16,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class DashboardController {
+public class MypageController {
 
-	public DashboardController(UserDAO UserDAO) {
+	public MypageController(UserDAO UserDAO) {
 	}
 
 	//USER,CREATER,EDITOR,ADMIN
 
 	//▼userのマイページ
 
-	@GetMapping("/userDashboard")
-	public String getUserDashboard(Model model, HttpServletRequest request) {
+	@GetMapping("/userMypage")
+	public String getUserMypage(Model model, HttpServletRequest request) {
 		// セッションを取得
 		HttpSession session = request.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");
@@ -53,19 +53,19 @@ public class DashboardController {
 
 		System.out.println("ここまできてるよ");
 
-		return "userDashboard";
+		return "userMypage";
 	}
 
-	@PostMapping("/userDashboard")
-	public String postDashboard() {
+	@PostMapping("/userMypage")
+	public String postMypage() {
 		//Postで遷移する処理ないから使いません
-		return "userDashboard";
+		return "userMypage";
 	}
 
 	//▼createrのマイページ
 
-	@GetMapping("/createrDashboard")
-	public String getCreaterDashboard(Model model, HttpServletRequest request) {
+	@GetMapping("/createrMypage")
+	public String getCreaterMypage(Model model, HttpServletRequest request) {
 		// セッションを取得
 		HttpSession session = request.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");
@@ -101,20 +101,20 @@ public class DashboardController {
 
 		System.out.println("ここまできてるよ");
 
-		return "createrDashboard";
+		return "createrMypage";
 	}
 
 
-	@PostMapping("/createrDashboard")
-	public String postCreaterDashboard() {
+	@PostMapping("/createrMypage")
+	public String postCreaterMypage() {
 		//Postで遷移する処理ないから使いません
-		return "createrDashboard";
+		return "createrMypage";
 	}
 
 	//▼userのマイページ
 
-	@GetMapping("/editorDashboard")
-	public String getEditorDashboard(Model model, HttpServletRequest request) {
+	@GetMapping("/editorMypage")
+	public String getEditorMypage(Model model, HttpServletRequest request) {
 		// セッションを取得
 		HttpSession session = request.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");
@@ -142,20 +142,20 @@ public class DashboardController {
 
 		System.out.println("ここまできてるよ");
 
-		return "editorDashboard";
+		return "editorMypage";
 	}
 
 
-	@PostMapping("/editorDashboard")
-	public String postEditorDashboard() {
+	@PostMapping("/editorMypage")
+	public String postEditorMypage() {
 		//Postで遷移する処理ないから使いません
-		return "editorDashboard";
+		return "editorMypage";
 	}
 
 	//▼adminのマイページ
 
-	@GetMapping("/adminDashboard")
-	public String getAdminDashboard(Model model, HttpServletRequest request) {
+	@GetMapping("/adminMypage")
+	public String getAdminMypage(Model model, HttpServletRequest request) {
 		// セッションを取得
 		HttpSession session = request.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");
@@ -181,32 +181,13 @@ public class DashboardController {
 		// ログイン済みの場合、ユーザー情報をモデルに追加
 		model.addAttribute("user", user);
 
-		return "adminDashboard";
+		return "adminMypage";
 	}
 
-	@PostMapping("/adminDashboard")
-	public String postAdminDashboard() {
+	@PostMapping("/adminMypage")
+	public String postAdminMypage() {
 		//Postで遷移する処理ないから使いません
-		return "/adminDashboard";
-	}
-	
-	//いろんなページからdashboardに戻るときの処理
-	@GetMapping("/dashboard")
-	public String getBackDashboard(Model model, HttpServletRequest request){
-		HttpSession session = request.getSession();
-		UserModel user = (UserModel) session.getAttribute("user");
-		
-		// ログインしたユーザーの権限に応じてリダイレクト先を決定
-        String userRole = user.getUserRole();
-        if (userRole.equals("一般")) {
-            // 一般ユーザーの場合、ダッシュボードへリダイレクト
-            return "redirect:/userDashboard";
-        } else if(userRole.equals("管理者")) {
-            // 管理者ユーザーの場合、管理者用ダッシュボードへリダイレクト
-            return "redirect:/adminDashboard";
-        }else {
-        	return "login";
-        }
+		return "/adminMypage";
 	}
 
 }

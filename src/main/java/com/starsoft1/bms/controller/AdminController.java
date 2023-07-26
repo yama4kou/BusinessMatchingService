@@ -35,19 +35,19 @@ public class AdminController {
 		this.userDetailsManager = userDetailsManager;
 	}
 
-	@GetMapping("/SearchUser")
+	@GetMapping("/userSearch")
 	public String userSearch() {
 
 		// go to admin page
-		return "user_search";
+		return "userSearch";
 	}
 
-	@PostMapping("/Search")
+	@PostMapping("/userSearch")
 	public String userSearchResult(@ModelAttribute("user") UserModel userModel, HttpServletRequest request,
 			Model model) {
 
 		String companyName = request.getParameter("companyName");
-		String name = request.getParameter("name");
+		//String name = request.getParameter("name");
 		String lastName = "";
 		String firstName = "";
 		lastName = request.getParameter("lastName");
@@ -70,21 +70,21 @@ public class AdminController {
 		model.addAttribute("lastName", lastName);
 		model.addAttribute("firstName", firstName);
 		// go to admin page
-		return "user_search";
+		return "userSearch";
 	}
 
-	@PostMapping("/SearchUserEdit")
+	@PostMapping("/searchedUserEdit")
 	public String userSearchEdit(@ModelAttribute("user") UserModel userModel, BindingResult bindingResult, Model model,
 			HttpServletRequest request) {
 		String userId = request.getParameter("userId");
 
-		UserModel user = UserDAO.getUserById(Integer.valueOf(userId));
+		UserModel user = com.starsoft1.bms.dao.UserDAO.getUserById(Integer.valueOf(userId));
 
 		model.addAttribute("user", user);
 		List<String> roleList = UserDAO.getDisRoles();
 		model.addAttribute("roleList", roleList);
 
-		return "searched_user_edit";
+		return "searchedUserEdit";
 	}
 
 	@PostMapping("/SearchUserEditComplete")
@@ -96,7 +96,7 @@ public class AdminController {
 			return "userEditForm";
 		}
 
-		UserModel user = UserDAO.getUserById(newUser.getUserId());
+		UserModel user = com.starsoft1.bms.dao.UserDAO.getUserById(newUser.getUserId());
 		// ユーザー情報をデータベースに保存
 		int roleId = UserDAO.getRoleId(newUser.getUserRole());
 		newUser.setUserPassword(user.getUserPassword());
@@ -104,6 +104,7 @@ public class AdminController {
 		newUser.setUserDeleteFlag(user.getUserDeleteFlag());
 		UserDAO.updateUser(newUser, roleId);
 		this.userDetailsManager.deleteUser(newUser.getUserEmail());
+		@SuppressWarnings("deprecation")
 		UserDetails customer = User.withDefaultPasswordEncoder()
 				.username(newUser.getUserEmail())
 				.password(newUser.getUserPassword())
@@ -113,22 +114,28 @@ public class AdminController {
 
 		model.addAttribute("user", newUser);
 
-		return "user_edit_complete";
+		return "searchedUserEditComplete";
 	}
 
-	@PostMapping("/SearchUserDelete")
-	public String searchUserDelete(@ModelAttribute("user") UserModel user, BindingResult bindingResult, Model model,
+	@PostMapping("/searchedUserDeleteComplete")
+	public String searchUserDelete(@ModelAttribute("user") UserModel userModel, BindingResult bindingResult, Model model,
 			HttpServletRequest request) {
+		UserModel user = UserDAO.getUserById(userModel.getUserId());
 		user.setUserDeleteFlag(1);
+		System.out.println("ここまで");
+		System.out.println(user.getUserDeleteFlag());
 		UserDAO.updateUser(user);
 		this.userDetailsManager.deleteUser(user.getUserEmail());
-		return "user_delete_complete";
+		return "searchedUserDeleteComplete";
 	}
 
-	@PostMapping("/SearchUserDeleteConfirm")
-	public String searchUserDeleteConfirm(@ModelAttribute("user") UserModel user, BindingResult bindingResult,
+	@PostMapping("/searchedUserDeleteConfirm")
+	public String searchUserDeleteConfirm(@ModelAttribute("user") UserModel userModel, BindingResult bindingResult,
 			Model model, HttpServletRequest request) {
+		model.addAttribute("user", userModel);
+		String userId = request.getParameter("userId");
+		UserModel user = com.starsoft1.bms.dao.UserDAO.getUserById(Integer.valueOf(userId));
 		model.addAttribute("user", user);
-		return "searched_user_delete_confirm";
+		return "searchedUserDeleteConfirm";
 	}
 }

@@ -42,28 +42,17 @@ th {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-.button-container .engineer-button, .button-container .case-button,
-	.button-container .edit-button, .button-container .delete-button,
+.button-container .edit-button, .button-container .delete-button,
 	.button-container .logout-button, .button-container .mail-button {
-	padding: 8px 16px;
+	padding: 6px 16px;
 	border: none;
 	border-radius: 4px;
 	color: #fff;
 	cursor: pointer;
-}
-
-.button-container .engineer-button {
-	background-color: #4caf50;
-	margin-right: 10px;
-}
-
-.button-container .case-button {
-	background-color: #4caf50;
-	margin-right: 10px;
 }
 
 .button-container .mail-button {
@@ -114,11 +103,8 @@ th {
 		</table>
 
 		<div class="button-container">
-			<form action="/" method="post">
-				<button type="submit" class="engineer-button">エンジニア検索</button>
-			</form>
-			<form action="/" method="post">
-				<button type="submit" class="case-button">案件検索</button>
+			<form action="/承認" method="post">
+				<button type="submit" class="edit-button">承認</button>
 			</form>
 			<form action="/mailBox" method="post">
 				<button type="submit" class="mail-button">メールボックス</button>

@@ -7,7 +7,7 @@
 <title>ダッシュボード</title>
 <style>
 body {
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 .container {
@@ -15,13 +15,14 @@ body {
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #fff;
-	border: 1px solid #ccc;
+	border: 1px solid #fff;
 	border-radius: 5px;
 }
 
 h1 {
 	font-size: 24px;
 	text-align: center;
+	margin: 0px;
 }
 
 table {
@@ -29,7 +30,7 @@ table {
 	border-collapse: collapse;
 }
 
-th, td {
+td {
 	padding: 8px;
 	border-bottom: 1px solid #ccc;
 }
@@ -42,14 +43,14 @@ th {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
 .button-container .userSearch-button, .button-container .edit-button,
 	.button-container .delete-button, .button-container .logout-button,
 	.button-container .mail-button {
-	padding: 8px 16px;
+	padding: 6px 16px;
 	border: none;
 	border-radius: 4px;
 	color: #fff;
@@ -87,29 +88,35 @@ th {
 
 </head>
 <body>
+
 	<div class="container">
+		<div class="logo">
+			<header>
+				<!-- ヘッダー部分の追加 -->
+				<a href="/"> <img
+					src="${pageContext.request.contextPath}/images/logo.png" alt="ロゴ"
+					width="150" height="50">
+				</a>
+			</header>
+		</div>
 		<h1>ようこそ、${user.userLastName}さん</h1>
 		<table>
 			<tr>
 				<td>会社名</td>
-				<td>${user.userCompanyName}</td>
+				<td>：${user.userCompanyName}</td>
 			</tr>
 			<tr>
 				<td>部署名</td>
-				<td>${user.userDepartmentName}</td>
+				<td>：${user.userDepartmentName}</td>
 			</tr>
 			<tr>
 				<td>氏名</td>
-				<td>${user.userLastName}${user.userFirstName}</td>
-			</tr>
-			<tr>
-				<td>氏名（かな）</td>
-				<td>${user.userLastNameKana}${user.userFirstNameKana}</td>
+				<td>：${user.userLastName}${user.userFirstName}</td>
 			</tr>
 		</table>
 
 		<div class="button-container">
-			<form action="/SearchUser" method="get">
+			<form action="/userSearch" method="get">
 				<button type="submit" class="userSearch-button">ユーザーの検索</button>
 			</form>
 			<form action="/mailBox" method="post">

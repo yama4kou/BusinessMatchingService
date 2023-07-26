@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>編集完了</title>
+    <title>削除完了</title>
     <style>
         .container {
             text-align: center;
@@ -13,8 +13,8 @@
 </head>
 <body>
     <div class="container">
-        <h2>編集が完了しました</h2>
-        <a href="${pageContext.request.contextPath}/dashboard">マイページ</a>へ戻る
+        <h2>ユーザーの削除が完了しました</h2>
+        <a href="${pageContext.request.contextPath}/userSearch">ユーザー検索</a>へ戻る
     </div>
 </body>
 </html>

@@ -1,5 +1,9 @@
 package com.starsoft1.bms.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +22,13 @@ public class UserController {
 
 	private UserDAO UserDAO;
 
-	public UserController(UserDAO UserDAO) {
+
+	@Autowired
+	private UserDetailsManager userDetailsManager;
+	
+	public UserController(UserDAO UserDAO,UserDetailsManager userDetailsManager) {
 		this.UserDAO = UserDAO;
+		this.userDetailsManager = userDetailsManager;
 	}
 
 	//▼-----Edit関連-----
@@ -41,7 +50,7 @@ public class UserController {
 //		System.out.println(originUser.getUserFirstNameKana() + "+" + user.getUserFirstNameKana());
 //		System.out.println(originUser.getUserEmail() + "+" + user.getUserEmail());	
 
-		//edit→editConfirm→edit→dashboardのときの処理
+		//edit→editConfirm→edit→Mypageのときの処理
 		if (!originUser.getUserCompanyName().equals(user.getUserCompanyName())
 				||!originUser.getUserDepartmentName().equals(user.getUserDepartmentName())
 				||!originUser.getUserLastName().equals(user.getUserLastName())
@@ -57,7 +66,7 @@ public class UserController {
 		}
 
 		user.setUserPassword(""); // 初期値を空文字列に設定する
-		//		user.setUser_confirmPassword(""); // 初期値を空文字列に設定する
+		user.setUserConfirmPassword(""); // 初期値を空文字列に設定する
 
 		model.addAttribute("user", user);
 
@@ -84,7 +93,7 @@ public class UserController {
 			System.out.println(originUser.getUserFirstNameKana() + "+" + user.getUserFirstNameKana());
 			System.out.println(originUser.getUserEmail() + "+" + user.getUserEmail());
 
-			//			//edit→editConfirm→edit→dashboardのときの処理
+			//			//edit→editConfirm→edit→Mypageのときの処理
 			//			if (!originUser.getCompanyName().equals(user.getCompanyName())
 			//					||!originUser.getDepartmentName().equals(user.getDepartmentName())
 			//					||!originUser.getLastName().equals(user.getLastName())
@@ -101,7 +110,7 @@ public class UserController {
 
 			user.setUserPassword(""); // 初期値を空文字列に設定する
 			System.out.println("今のuser.passwordは" + user.getUserPassword());
-			//user.setUser_confirmPassword(""); // 初期値を空文字列に設定する
+			user.setUserConfirmPassword(""); // 初期値を空文字列に設定する
 
 			model.addAttribute("user", user);
 			session.setAttribute("user", originUser);
@@ -239,7 +248,14 @@ public class UserController {
 
 		// ユーザー情報をデータベースに保存
 		UserDAO.updateUser(user);
-
+		this.userDetailsManager.deleteUser(user.getUserEmail());
+		@SuppressWarnings("deprecation")
+		UserDetails customer = User.withDefaultPasswordEncoder()
+				.username(user.getUserEmail())
+				.password(user.getUserPassword())
+				.roles(user.getUserRole())
+				.build();
+		this.userDetailsManager.createUser(customer);
 		//model.addAttribute("user", newUser);
 
 		//sessionnに登録し直し
@@ -434,6 +450,8 @@ public class UserController {
 		// ユーザー削除処理
 		//UserDAO.deleteUser(user);
 		UserDAO.updateUser(user);
+		this.userDetailsManager.deleteUser(user.getUserEmail());
+
 		//sessionを削除処理
 		session.invalidate();
 

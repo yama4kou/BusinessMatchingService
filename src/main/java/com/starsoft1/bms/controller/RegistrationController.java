@@ -181,6 +181,7 @@ public class RegistrationController {
 		// ユーザー情報をデータベースに保存
 		UserDAO.saveUser(user);
 
+		@SuppressWarnings("deprecation")
 		UserDetails customer = User.withDefaultPasswordEncoder()
 				.username(user.getUserEmail())
 				.password(user.getUserPassword())

@@ -9,15 +9,13 @@
 <title>ダッシュボード</title>
 <style>
 body {
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 .container {
 	max-width: 850px;
 	margin: 0 auto;
 	padding: 20px;
-	background-color: #fff;
-	border: 1px solid #ccc;
 	border-radius: 5px;
 }
 
@@ -44,7 +42,7 @@ th {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
@@ -52,7 +50,7 @@ th {
 	.button-container .engineer-button, .button-container .case-button,
 	.button-container .edit-button, .button-container .delete-button,
 	.button-container .logout-button, .button-container .mail-button {
-	padding: 8px 16px;
+	padding: 6px 16px;
 	border: none;
 	border-radius: 4px;
 	color: #fff;

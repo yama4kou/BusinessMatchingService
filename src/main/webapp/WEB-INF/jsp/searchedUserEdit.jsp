@@ -55,20 +55,6 @@ body {
 	background-color: #45a049;
 }
 
-.container .deleteButton {
-	width: 45%;
-	padding: 10px;
-	background-color: #af4c4c;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-.container .deleteButton:hover {
-	background-color: #a04545;
-}
-
 .container .input-wrapper {
 	display: flex;
 	align-items: center;
@@ -84,8 +70,9 @@ body {
 	flex-basis: 70%;
 }
 
-.container .regist {
+.container .confirmation {
 	margin-top: 10px;
+	text-align: center;
 }
 
 .error-message {
@@ -152,14 +139,19 @@ body {
 
 					<form:select name="User_role" id="User_role" class="User_role"
 						path="userRole">
-						<% ArrayList<String> roleList = (ArrayList<String>) request.getAttribute("roleList");%>
+						<%
+						ArrayList<String> roleList = (ArrayList<String>) request.getAttribute("roleList");
+						%>
 
-						<%  for (String role : roleList) {
-              %>
-						<form:option value="<%= role %>">
-							<%=role %>
+						<%
+						for (String role : roleList) {
+						%>
+						<form:option value="<%=role%>">
+							<%=role%>
 						</form:option>
-						<%   } %>
+						<%
+						}
+						%>
 					</form:select>
 				</div>
 			</security:authorize>
@@ -176,12 +168,9 @@ body {
 			<!-- フォームの送信ボタン -->
 			<div class="confirmation">
 				<button type="submit">確認</button>
-				<button class="deleteButton" type="submit"
-					formaction="${pageContext.request.contextPath}/SearchUserDeleteConfirm"
-					formmethod="post" value="Submit to second">削除</button>
 			</div>
 			<p>
-				<a href="${pageContext.request.contextPath}/SearchUser">ユーザー検索</a>へ戻る
+				<a href="${pageContext.request.contextPath}/userSearch">ユーザー検索</a>へ戻る
 			</p>
 
 		</form:form>
@@ -205,9 +194,10 @@ body {
 						"submit",
 						function(event) {
 							event.preventDefault();
-							let errorEle = document.getElementById("User_email.errors");
-							if(errorEle !== null){
-								errorEle.innerHTML= "" ;
+							let errorEle = document
+									.getElementById("User_email.errors");
+							if (errorEle !== null) {
+								errorEle.innerHTML = "";
 							}
 							var hiraganaPattern = /^[\u3040-\u309F]+$/;
 							var katakanaPattern = /^[\u30A0-\u30FF]+$/;
@@ -217,7 +207,6 @@ body {
 							var emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 							var errorMessage = "";
-
 
 							if (!katakanaPattern.test(firstNameKanaInput.value)) {
 								errorMessage = "名（フリガナ）はカタカナで入力してください";
@@ -238,7 +227,7 @@ body {
 							if (!emailPattern.test(emailInput.value)) {
 								errorMessage = "メールのパターンが一致しません";
 							}
-							
+
 							errorMessageElement.innerText = errorMessage;
 
 							if (errorMessage === "") {

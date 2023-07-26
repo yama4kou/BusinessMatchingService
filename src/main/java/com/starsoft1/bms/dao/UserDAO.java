@@ -62,7 +62,7 @@ public class UserDAO {
 			while(res.next()) {
 				String userId = res.getString(1);
 				System.out.println("Generated User Id :"+ userId);
-				String roleUptSql = "INSERT INTO users_roles  (role_id, user_id) VALUES(1,"+userId+");";
+				String roleUptSql = "INSERT INTO users_roles (role_id, user_id) VALUES(1,"+userId+");";
 				PreparedStatement roleUptStatement = null;
 				roleUptStatement = connection.prepareStatement(roleUptSql);
 				roleUptStatement.executeUpdate();
@@ -313,6 +313,7 @@ public class UserDAO {
 				user.setUserFirstNameKana(resultSet.getString("user_firstNameKana"));
 				user.setUserEmail(resultSet.getString("user_email"));
 				user.setUserPassword(resultSet.getString("user_password"));
+				user.setUserRole(resultSet.getString("user_role"));
 
 
 				users.add(user);

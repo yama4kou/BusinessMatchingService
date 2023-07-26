@@ -8,21 +8,27 @@
 <title>ユーザー情報編集</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 .container {
-	max-width: 400px;
+	max-width: 850px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #fff;
+	border: 1px solid #fff;
 	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.container h2, p {
+.container h2 {
 	text-align: center;
+	margin: 2px;
+	margin-bottom: 5px;
+}
+
+.container p {
+	text-align: center;
+	margin: 5px;
 }
 
 .container label {
@@ -40,25 +46,33 @@ body {
 
 .container button {
 	width: 100%;
-	padding: 10px;
-	background-color: #4caf50;
-	color: #fff;
+	padding: 6px;
+	background-color: #1976D2;
+	color: #ffc34a;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
-}
-
-.container button:hover {
-	background-color: #45a049;
 }
 
 .container .input-wrapper {
 	display: flex;
 	align-items: center;
 	margin: 2px;
+	padding-top: 2px;
+	border-top: 1px solid #ccc;
 }
 
-.container .input-wrapper label {
+.container .input-wrapper-last {
+	display: flex;
+	align-items: center;
+	margin: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.container .input-wrapper label, .container .input-wrapper-last label {
 	flex-basis: 30%;
 }
 
@@ -67,7 +81,7 @@ body {
 	flex-basis: 70%;
 }
 
-.container .regist {
+.container .confirmation {
 	margin-top: 10px;
 }
 
@@ -80,8 +94,17 @@ body {
 </head>
 <body>
 	<div class="container">
+		<div class="logo">
+			<header>
+				<!-- ヘッダー部分の追加 -->
+				<a href="/"> <img
+					src="${pageContext.request.contextPath}/images/logo.png" alt="ロゴ"
+					width="150" height="50">
+				</a>
+			</header>
+		</div>
 		<h2>ユーザー情報編集</h2>
-		<p>以下の情報を編集しますか？</p>
+		<p>変更したい情報を入力して確認を押してください</p>
 		<form:form
 			action="${pageContext.request.contextPath}/userEditConfirmation"
 			method="post" modelAttribute="user">
@@ -106,8 +129,8 @@ body {
 
 			<div class="input-wrapper">
 				<label for="User_firstName">名:</label>
-				<form:input path="UserFirstName" id="User_firstName"
-					required="true" value="${user.userFirstName}" />
+				<form:input path="UserFirstName" id="User_firstName" required="true"
+					value="${user.userFirstName}" />
 			</div>
 
 			<div class="input-wrapper">
@@ -130,33 +153,27 @@ body {
 
 			<div class="input-wrapper">
 				<label for="User_password">パスワード:</label>
-				<form:input path="UserPassword" id="User_password" type="password"
-					required="true" />
+				<form:input path="UserPassword" id="User_password"
+					type="password" required="true" value="" />
 			</div>
 
-			<div class="input-wrapper">
+			<div class="input-wrapper-last">
 				<label for="User_confirmPassword">パスワード確認:</label>
 				<form:input path="UserConfirmPassword" id="User_confirmPassword"
-					type="password" required="true" />
+					type="password" required="true" value="${user.userConfirmPassword}" />
 			</div>
 
-			<div class="input-wrapper">
-				<label for="User_registrationDate">登録日:</label>
+				<label for="User_registrationDate"><!-- 登録日: --></label>
 				<form:input path="UserRegistrationDate" id="User_registrationDate"
-					required="true" value="${user.userRegistrationDate}" />
-			</div>
+					required="true" value="${user.userRegistrationDate}" type="hidden" />
 
-			<div class="input-wrapper">
-				<label for="User_role">ユーザー権限:</label>
+				<label for="User_role">	<!-- ユーザー権限: --></label>
 				<form:input path="UserRole" id="User_role" required="true"
-					value="${user.userRole}" />
-			</div>
+					value="${user.userRole}" type="hidden" />
 
-			<div class="input-wrapper">
-				<label for="User_deleteFlag">退会状況:</label>
+				<label for="User_deleteFlag"><!-- 退会状況: --></label>
 				<form:input path="UserDeleteFlag" id="User_deleteFlag"
-					required="true" value="${user.userDeleteFlag}" />
-			</div>
+					required="true" value="${user.userDeleteFlag}" type="hidden" />
 
 			<!-- エラーメッセージ表示領域 -->
 			<div class="error-message">
